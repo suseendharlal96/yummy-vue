@@ -77,7 +77,7 @@ export default {
     };
 
     return {
-      hotels: actualHotels.value,
+      hotels: actualHotels,
       selectedOption,
       sort,
       search,
