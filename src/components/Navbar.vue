@@ -1,0 +1,133 @@
+<template>
+  <div class="navbar">
+    <div class="brand">Yummy~Vue</div>
+    <div><h1>🥧</h1></div>
+    <a class="nav-blocks" @click="toggle">
+      <span></span>
+      <span></span>
+      <span></span>
+    </a>
+    <div :class="['nav-links', showLink ? 'active' : '']">
+      <ul>
+        <li @click="navigate('/')" :class="activePath === '/' ? 'active' : ''">
+          Home
+        </li>
+        <li
+          @click="navigate('/auth')"
+          :class="activePath === '/auth' ? 'active' : ''"
+        >
+          Signin
+        </li>
+        <!-- <li></li> -->
+      </ul>
+    </div>
+  </div>
+</template>
+
+<script>
+import { onMounted, computed, ref } from "vue";
+import { useRouter, useRoute } from "vue-router";
+export default {
+  setup() {
+    const router = useRouter();
+    const route = useRoute();
+
+    const showLink = ref(false);
+
+    const toggle = () => {
+      showLink.value = !showLink.value;
+    };
+
+    const navigate = (path) => {
+      router.push(path);
+      showLink.value = false;
+    };
+
+    const activePath = computed(() => route.path);
+
+    return {
+      router,
+      activePath,
+      showLink,
+      toggle,
+      navigate,
+    };
+  },
+};
+</script>
+
+<style scoped>
+.navbar {
+  position: fixed;
+  width: -webkit-fill-available;
+  height: 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  background-color: #333;
+  padding: 0 0.6rem;
+  z-index: 99;
+}
+.brand {
+  color: #00ff7f;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+ul {
+  display: flex;
+  justify-content: space-between;
+  margin: 0;
+  padding: 0;
+  transition: all 0.5s;
+}
+li {
+  padding: 0.5rem;
+  color: #ffffff;
+  list-style: none;
+  cursor: pointer;
+  margin: 0 5px;
+  padding: 16px;
+}
+li.active {
+  background-color: aquamarine;
+  color: #333;
+}
+li:not(.active):hover {
+  background-color: #777777;
+}
+h1 {
+  margin: 0;
+}
+.nav-blocks {
+  display: none;
+}
+@media screen and (max-width: 550px) {
+  .nav-blocks {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    cursor: pointer;
+  }
+  .nav-links {
+    display: none;
+  }
+  .nav-links.active {
+    display: flex;
+    width: 100%;
+  }
+  ul {
+    width: 100%;
+    flex-direction: column;
+    background-color: #333;
+    position: relative;
+    top: 7px;
+  }
+
+  span {
+    border: 1px solid #00ff7f;
+    width: 25px;
+    margin-bottom: 5px;
+  }
+}
+</style>
