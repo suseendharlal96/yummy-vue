@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from "vue-router";
 
 import Home from "../views/Home.vue";
 import Auth from "../views/Auth.vue";
-import Sample from "../components/Sample.vue";
+import Hotel from "../components/Hotel.vue";
 
 const routes = [
   {
@@ -11,8 +11,8 @@ const routes = [
   },
   { path: "/auth", component: Auth },
   {
-    path: "/sample",
-    component: Sample,
+    path: "/hotel/:id",
+    component: Hotel,
   },
   { path: "/:pathMatch(.*)*", redirect: "/" },
 ];

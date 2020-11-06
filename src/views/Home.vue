@@ -1,7 +1,12 @@
 <template>
   <div class="filter-container">
     <h2>Menu</h2>
-    <input type="text" placeholder="Search hotel" v-model="searchedHotel" @keyup="search" />
+    <input
+      type="text"
+      placeholder="Search hotel"
+      v-model="searchedHotel"
+      @keyup="search"
+    />
     <div>
       Filter by:
       <select class="filter" v-model="selectedOption" @change="sort($event)">
@@ -14,7 +19,7 @@
   </div>
   <div class="hotels-container">
     <template v-for="hotel in hotels" :key="hotel.id">
-      <div class="hotel-card">
+      <div @click="navigate(hotel.id)" class="hotel-card">
         <img :src="hotel.thumbnailImage" :alt="hotel.name" />
         <h3>{{ hotel.name }}</h3>
         <p class="cuisine">
@@ -36,9 +41,11 @@
 
 <script>
 import { onBeforeMount, onMounted, reactive, ref, watch } from "vue";
+import { useRouter } from "vue-router";
 import { hotels } from "../hotels.js";
 export default {
   setup() {
+    const router = useRouter();
     const selectedOption = ref("");
     const searchedHotel = ref("");
     const actualHotels = ref(hotels);
@@ -76,12 +83,17 @@ export default {
       console.log(actualHotels.value);
     };
 
+    const navigate = (id) => {
+      router.push(`/hotel/${id}`);
+    };
+
     return {
       hotels: actualHotels,
       selectedOption,
       sort,
       search,
       searchedHotel,
+      navigate,
     };
   },
 };

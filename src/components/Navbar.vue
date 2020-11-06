@@ -1,7 +1,6 @@
 <template>
   <div class="navbar">
-    <div class="brand">Yummy~Vue</div>
-    <div><h1>🥧</h1></div>
+    <div class="brand">Yummy~Vue🥧</div>
     <a class="nav-blocks" @click="toggle">
       <span></span>
       <span></span>
@@ -12,12 +11,18 @@
         <li @click="navigate('/')" :class="activePath === '/' ? 'active' : ''">
           Home
         </li>
-        <li
-          @click="navigate('/auth')"
-          :class="activePath === '/auth' ? 'active' : ''"
-        >
-          Signin
-        </li>
+        <template v-if="authData">
+          <li @click="logout">Logout</li>
+          <li class="email">{{ authData.email }}</li>
+        </template>
+        <template v-else>
+          <li
+            @click="navigate('/auth')"
+            :class="activePath === '/auth' ? 'active' : ''"
+          >
+            Signin
+          </li>
+        </template>
         <!-- <li></li> -->
       </ul>
     </div>
@@ -26,11 +31,13 @@
 
 <script>
 import { onMounted, computed, ref } from "vue";
+import { useStore } from "vuex";
 import { useRouter, useRoute } from "vue-router";
 export default {
   setup() {
     const router = useRouter();
     const route = useRoute();
+    const store = useStore();
 
     const showLink = ref(false);
 
@@ -43,6 +50,12 @@ export default {
       showLink.value = false;
     };
 
+    const logout = () => {
+      store.commit("auth/logout");
+      router.push("/auth");
+    };
+
+    const authData = computed(() => store.getters["auth/getAuthData"]);
     const activePath = computed(() => route.path);
 
     return {
@@ -51,6 +64,8 @@ export default {
       showLink,
       toggle,
       navigate,
+      authData,
+      logout,
     };
   },
 };
@@ -85,15 +100,15 @@ li {
   padding: 0.5rem;
   color: #ffffff;
   list-style: none;
-  cursor: pointer;
   margin: 0 5px;
   padding: 16px;
 }
-li.active {
+li:not(.email).active {
   background-color: aquamarine;
   color: #333;
 }
 li:not(.active):hover {
+  cursor: pointer;
   background-color: #777777;
 }
 h1 {
@@ -101,6 +116,9 @@ h1 {
 }
 .nav-blocks {
   display: none;
+}
+.email {
+  color: yellow;
 }
 @media screen and (max-width: 550px) {
   .nav-blocks {
