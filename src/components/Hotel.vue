@@ -28,9 +28,12 @@
         </div>
       </div>
       <div class="bill-container">
-        <Bill :billItems="orderItems" />
+        <Bill :billItems="orderItems" @show-modal="showModal = true" />
       </div>
     </div>
+    <template v-if="showModal">
+      <ContactForm @cancel="navigate" />
+    </template>
   </template>
   <template v-else>
     <p>loading..</p>
@@ -39,15 +42,18 @@
 
 <script>
 import { onMounted, reactive, ref } from "vue";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 
 import { hotels } from "../hotels";
 import Bill from "./Bill.vue";
+import ContactForm from "./ContactForm.vue";
 
 export default {
   setup() {
     const route = useRoute();
+    const router = useRouter();
     const hotel = ref(null);
+    const showModal = ref(false);
     let orderItems = reactive([]);
     const featureImage = ref();
     const addItems = (item) => {
@@ -67,6 +73,11 @@ export default {
       console.log(orderItems);
     };
 
+    const navigate = () => {
+      router.back();
+      showModal.value = false;
+    };
+
     onMounted(() => {
       console.log(route.params);
       const selectedHotel = hotels.find((h) => h.id === route.params.id);
@@ -79,10 +90,14 @@ export default {
       addItems,
       orderItems,
       featureImage,
+      showModal,
+      router,
+      navigate,
     };
   },
   components: {
     Bill,
+    ContactForm,
   },
 };
 </script>

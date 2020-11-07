@@ -14,6 +14,10 @@ const routes = [
     path: "/hotel/:id",
     component: Hotel,
   },
+  {
+    path: "/hotel/:id/pay",
+    component: Hotel,
+  },
   { path: "/:pathMatch(.*)*", redirect: "/" },
 ];
 
