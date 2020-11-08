@@ -66,7 +66,7 @@
             :disabled="loading || !isValid"
             type="submit"
           >
-            Place Order
+            {{ loading ? "Please wait.." : "Place Order" }}
           </button>
         </div>
       </form>
@@ -78,7 +78,10 @@
 import { computed, reactive, ref } from "vue";
 import { useStore } from "vuex";
 export default {
-  setup() {
+  emits: ["cancel"],
+  props: ["orderItems"],
+  setup({ orderItems }) {
+    console.log(orderItems);
     // const selectedOption = ref("");
     const valid = ref(false);
     const store = useStore();
@@ -102,10 +105,22 @@ export default {
     });
 
     const authData = computed(() => store.getters["auth/getAuthData"]);
+    const loading = computed(() => store.getters["order/getLoading"]);
 
     const onSubmit = () => {
+      let total = 0;
+      orderItems.menu.forEach((m) => {
+        total += m.price * m.quantity;
+      });
+      const orderData = {
+        name: orderItems.hotel.name,
+        id: orderItems.hotel.id,
+        address: orderItems.hotel.address,
+        total,
+        menu: orderItems.menu,
+      };
       const order = {
-        // orderData: this.orderData[0],
+        orderData,
         customerDetails: {
           name: form.name,
           street: form.street,
@@ -114,15 +129,19 @@ export default {
           email: authData.value.email,
           deliverymode: form.payment,
         },
-        orderDate: new Date(),
+        orderDate: new Date().toISOString(),
         userId: authData.value.localId,
       };
+      console.log(order);
       const token = authData.value.idToken;
+      store.dispatch("order/placeOrder", { order, token });
     };
 
     return {
       form,
       isValid,
+      onSubmit,
+      loading,
     };
   },
 };

@@ -19,7 +19,7 @@
         </button>
       </template>
       <template v-else>
-        <button class="btn-login" @click="router.push('/auth')">Login</button>
+        <button class="btn-login" @click="router.push('/auth')">Login to place order</button>
       </template>
       <button class="btn-back" @click="router.push('/')">Back to Hotels</button>
     </div>

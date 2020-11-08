@@ -32,7 +32,10 @@
       </div>
     </div>
     <template v-if="showModal">
-      <ContactForm @cancel="navigate" />
+      <ContactForm
+        @cancel="navigate"
+        :orderItems="{ menu: orderItems, hotel }"
+      />
     </template>
   </template>
   <template v-else>
