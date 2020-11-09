@@ -8,7 +8,7 @@
           <input
             class="input-container"
             type="text"
-            v-model.lazy.trim="form.name"
+            v-model.trim="form.name"
             placeholder="John Doe.."
             id="name"
           />
@@ -18,7 +18,7 @@
           <input
             class="input-container"
             type="text"
-            v-model.lazy.trim="form.street"
+            v-model.trim="form.street"
             placeholder="Street Name"
             id="street"
           />
@@ -28,7 +28,7 @@
           <input
             class="input-container"
             type="text"
-            v-model.lazy.trim="form.pin"
+            v-model.trim="form.pin"
             placeholder="Pincode"
             id="pin"
             minlength="6"
@@ -40,7 +40,7 @@
           <input
             class="input-container"
             type="text"
-            v-model.lazy.trim="form.country"
+            v-model.trim="form.country"
             placeholder="Country"
             id="country"
           />
@@ -81,8 +81,6 @@ export default {
   emits: ["cancel"],
   props: ["orderItems"],
   setup({ orderItems }) {
-    console.log(orderItems);
-    // const selectedOption = ref("");
     const valid = ref(false);
     const store = useStore();
     const form = reactive({
@@ -132,7 +130,6 @@ export default {
         orderDate: new Date().toISOString(),
         userId: authData.value.localId,
       };
-      console.log(order);
       const token = authData.value.idToken;
       store.dispatch("order/placeOrder", { order, token });
     };

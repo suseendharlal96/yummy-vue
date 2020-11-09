@@ -3,7 +3,6 @@ import axios from "axios";
 const actions = {
   authenticate: async ({ commit }, { isSignup, authData }) => {
     commit("setError", null);
-    console.log(isSignup);
     commit("setLoader", true);
     let url =
       "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyBlMoiTr7TXkCCtEd3wNNDpSp5RX76jGzw";
@@ -13,7 +12,6 @@ const actions = {
     }
     try {
       const res = await axios.post(url, authData);
-      console.log(res);
       if (res) {
         commit("setLoader", false);
         commit("setError", null);

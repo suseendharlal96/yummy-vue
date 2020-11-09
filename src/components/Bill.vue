@@ -41,7 +41,6 @@ export default {
     const route = useRoute();
     const router = useRouter();
 
-    console.log(billItems);
     let items = reactive(billItems);
     const total = ref(0);
 
@@ -67,7 +66,6 @@ export default {
     const authData = computed(() => store.getters["auth/getAuthData"]);
 
     watch([items], () => {
-      console.log(items);
       let sum = 0;
       items.forEach((item) => {
         sum += item.price * item.quantity;

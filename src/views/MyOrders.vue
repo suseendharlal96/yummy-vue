@@ -62,13 +62,11 @@ export default {
     const router = useRouter();
     const loading = computed(() => store.getters["order/getLoading"]);
     const orders = computed(() => store.getters["order/getMyOrders"]);
-    console.log(orders);
     const activeIndex = ref(0);
     const more = (i) => {
       activeIndex.value = i;
     };
     onMounted(() => {
-      //   console.log(authData);
       const authData = computed(() => store.getters["auth/getAuthData"]);
       if (authData.value && authData.value.email) {
         store.dispatch("order/fetchOrder", { authData: authData.value });

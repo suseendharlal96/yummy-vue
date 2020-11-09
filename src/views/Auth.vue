@@ -8,7 +8,7 @@
           <input
             class="input-container"
             type="text"
-            v-model.lazy.trim="form.email"
+            v-model.trim="form.email"
             placeholder="example@email.com"
             id="email"
           />
@@ -18,7 +18,7 @@
           <input
             class="input-container"
             type="password"
-            v-model.lazy.trim="form.password"
+            v-model.trim="form.password"
             placeholder="Password(min 6 charac)"
             id="password"
           />
@@ -29,7 +29,7 @@
             <input
               class="input-container"
               type="password"
-              v-model.lazy.trim="form.confirmPassword"
+              v-model.trim="form.confirmPassword"
               placeholder="Retype your password"
               id="confirmPassword"
             />
@@ -88,7 +88,6 @@ export default {
     const isSignup = ref(false);
 
     const onSubmit = () => {
-      console.log(form);
       const authData = {
         email: form.email,
         password: form.password,
@@ -118,7 +117,6 @@ export default {
 
     const loading = computed(() => store.getters["auth/getLoader"]);
     const errors = computed(() => store.getters["auth/getErrors"]);
-    console.log(errors.value)
     onMounted(() => {
       store.commit("auth/setError", null);
     });

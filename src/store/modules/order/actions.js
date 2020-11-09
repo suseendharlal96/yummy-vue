@@ -33,7 +33,6 @@ const actions = {
       order
     );
     if (res) {
-      console.log(res.data);
       commit("setLoading", false);
       router.push("/success");
     } else {

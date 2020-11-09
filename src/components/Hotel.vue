@@ -75,7 +75,6 @@ export default {
       } else {
         orderItems.push({ ...item, quantity: 1 });
       }
-      console.log(orderItems);
     };
 
     const navigate = () => {
@@ -84,11 +83,9 @@ export default {
     };
 
     onMounted(() => {
-      console.log(route.params);
       const selectedHotel = hotels.find((h) => h.id === route.params.id);
       hotel.value = selectedHotel;
       featureImage.value = `url(${selectedHotel.featureImage})`;
-      console.log(hotel);
     });
     return {
       hotel,

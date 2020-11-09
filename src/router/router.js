@@ -25,7 +25,6 @@ const routes = [
     path: "/success",
     component: Success,
     beforeEnter: (to, from) => {
-      console.log(from);
       if (
         from.matched &&
         from.matched.length > 0 &&

@@ -52,7 +52,6 @@ export default {
 
     const sort = (e) => {
       window.scrollTo(0, 0);
-      console.log(1);
       if (e.target.value === "name") {
         actualHotels.value = hotels.sort((a, b) =>
           a.name.toLowerCase() > b.name.toLowerCase()
@@ -71,7 +70,6 @@ export default {
     };
 
     const search = () => {
-      console.log(searchedHotel.value);
       let filteredHotels = [...hotels];
       if (searchedHotel.value === "") {
         actualHotels.value = filteredHotels;
@@ -80,7 +78,6 @@ export default {
           hotel.name.toLowerCase().startsWith(searchedHotel.value.toLowerCase())
         );
       }
-      console.log(actualHotels.value);
     };
 
     const navigate = (id) => {
