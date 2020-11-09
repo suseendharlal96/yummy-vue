@@ -13,6 +13,10 @@ const mutations = {
   logout: (state) => {
     state.authData = null;
   },
+
+  setError: (state, error) => {
+    state.errors = error;
+  },
 };
 
 export default mutations;

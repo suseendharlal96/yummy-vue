@@ -19,7 +19,9 @@
                 <h4>{{ item.name }}</h4>
                 <span class="price"
                   >{{ item.price }}
-                  <button @click="addItems(item)">Add</button></span
+                  <button class="btn-more" @click="addItems(item)">
+                    Add
+                  </button></span
                 >
                 <p>{{ item.desc }}</p>
               </div>
@@ -143,5 +145,22 @@ h3 {
 }
 .faded {
   background-color: rgba(0, 0, 0, 0.65);
+}
+button {
+  cursor: pointer;
+  border-radius: 5px;
+  /* box-shadow: 2px 3px #000000; */
+  padding: 6px 12px;
+  font-weight: 400;
+}
+.btn-more {
+  color: #fff;
+  background-color: #337ab7;
+  border-color: #2e6da4;
+}
+.btn-more:hover {
+  color: #fff;
+  background-color: #286090;
+  border-color: #204d74;
 }
 </style>

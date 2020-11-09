@@ -6,7 +6,7 @@
         <div class="btn-container">
           <button class="btn-success" @click="router.push('/')">
             Place new order</button
-          ><button class="btn-primary" @click="router.push('/')">
+          ><button class="btn-primary" @click="router.push('/orders')">
             My Orders
           </button>
         </div>
@@ -16,9 +16,13 @@
 </template>
 
 <script>
+import { useRouter } from "vue-router";
 export default {
   setup() {
-    return {};
+    const router = useRouter();
+    return {
+      router,
+    };
   },
 };
 </script>

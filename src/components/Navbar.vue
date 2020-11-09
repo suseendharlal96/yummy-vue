@@ -1,6 +1,6 @@
 <template>
   <div class="navbar">
-    <div class="brand">Yummy~Vue🥧</div>
+    <div class="brand" @click="navigate('/')">Yummy~Vue🥧</div>
     <a class="nav-blocks" @click="toggle">
       <span></span>
       <span></span>
@@ -12,6 +12,12 @@
           Home
         </li>
         <template v-if="authData">
+          <li
+            @click="navigate('/orders')"
+            :class="activePath === '/orders' ? 'active' : ''"
+          >
+            My Orders
+          </li>
           <li @click="logout">Logout</li>
           <li class="email">{{ authData.email }}</li>
         </template>
@@ -88,6 +94,7 @@ export default {
   color: #00ff7f;
   font-size: 1.5rem;
   font-weight: bold;
+  cursor: pointer;
 }
 ul {
   display: flex;

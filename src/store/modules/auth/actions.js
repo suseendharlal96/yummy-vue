@@ -2,6 +2,7 @@ import axios from "axios";
 
 const actions = {
   authenticate: async ({ commit }, { isSignup, authData }) => {
+    commit("setError", null);
     console.log(isSignup);
     commit("setLoader", true);
     let url =
@@ -10,12 +11,16 @@ const actions = {
       url =
         "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyBlMoiTr7TXkCCtEd3wNNDpSp5RX76jGzw";
     }
-    const res = await axios.post(url, authData);
-    console.log(res);
-    if (res) {
-      commit("setLoader", false);
-      commit("storeAuthData", res.data);
-    } else {
+    try {
+      const res = await axios.post(url, authData);
+      console.log(res);
+      if (res) {
+        commit("setLoader", false);
+        commit("setError", null);
+        commit("storeAuthData", res.data);
+      }
+    } catch (err) {
+      commit("setError", err.response.data.error.message);
       commit("setLoader", false);
       alert("Something went wrong.Please try again.");
     }

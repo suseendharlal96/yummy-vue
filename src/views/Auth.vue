@@ -35,6 +35,11 @@
             />
           </div>
         </template>
+        <template v-if="errors">
+          <p>
+            {{ errors }}
+          </p>
+        </template>
         <div class="btn-container">
           <button
             class="btn-mode"
@@ -44,7 +49,11 @@
           >
             Switch to {{ isSignup ? "Signin" : "Signup" }}
           </button>
-          <button class="btn-primary" :disabled="loading" type="submit">
+          <button
+            class="btn-primary"
+            :disabled="loading || !validity"
+            type="submit"
+          >
             {{
               isSignup
                 ? loading
@@ -62,13 +71,14 @@
 </template>
 
 <script>
-import { computed, reactive, ref } from "vue";
+import { computed, onMounted, reactive, ref } from "vue";
 import { useStore } from "vuex";
 import axios from "axios";
 
 export default {
   setup() {
     const store = useStore();
+    const isValid = ref(false);
     const form = reactive({
       email: "",
       password: "",
@@ -91,7 +101,27 @@ export default {
       isSignup.value = !isSignup.value;
     };
 
+    const validity = computed(() => {
+      isValid.value = true;
+      const regEx = /^([0-9a-zA-Z]([-.w]*[0-9a-zA-Z])*@([0-9a-zA-Z][-w]*[0-9a-zA-Z].)+[a-zA-Z]{2,9})$/;
+      isValid.value =
+        form.email !== "" &&
+        form.email.match(regEx) &&
+        form.password !== "" &&
+        form.password.length >= 6;
+      if (isSignup.value) {
+        isValid.value =
+          form.confirmPassword !== "" && form.password === form.confirmPassword;
+      }
+      return isValid.value;
+    });
+
     const loading = computed(() => store.getters["auth/getLoader"]);
+    const errors = computed(() => store.getters["auth/getErrors"]);
+    console.log(errors.value)
+    onMounted(() => {
+      store.commit("auth/setError", null);
+    });
 
     return {
       form,
@@ -99,6 +129,8 @@ export default {
       changeMode,
       isSignup,
       loading,
+      validity,
+      errors,
     };
   },
 };
@@ -182,5 +214,8 @@ h2 {
 .smoke-effect {
   background-image: linear-gradient(transparent, rgba(37, 37, 37, 0.61), #111);
   height: 172px;
+}
+p {
+  color: #ff0000;
 }
 </style>

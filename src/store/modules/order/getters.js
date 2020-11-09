@@ -1,5 +1,5 @@
 const getters = {
-  // getAuthData: (state) => state.authData,
+  getMyOrders: (state) => state.myOrders,
   getLoading: (state) => state.loading,
 };
 
